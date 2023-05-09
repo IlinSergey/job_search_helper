@@ -1,0 +1,4 @@
+aiohttp==3.8.4
+flake8==6.0.0
+python-telegram-bot==20.3
+python-dotenv==1.0.0
