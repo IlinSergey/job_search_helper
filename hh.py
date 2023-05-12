@@ -1,10 +1,11 @@
+import re
+
 import requests
+
 from data_base import record_vacation, read_vacantion
 
 
 class HHAgent:
-    def __init__(self):
-        self.vacantions = {}
 
     def get_response(self):
         url = "https://api.hh.ru/vacancies"
@@ -42,3 +43,14 @@ class HHAgent:
 
     def get_vacantion(self):
         return read_vacantion()
+
+    def get_description_about_vacation(self, vacation_id: int):
+        url = f"https://api.hh.ru/vacancies/{vacation_id}"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            description = data["description"]
+            description_text = re.sub(r"<[^>]+>", "", description, flags=re.S)
+            return description_text
+        else:
+            return False

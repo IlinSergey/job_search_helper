@@ -55,20 +55,20 @@ def read_vacantion():
     try:
         connection = connect()
         cursor = connection.cursor()
-        read_query = """SELECT id, name, description, salary, url
+        read_query = """SELECT id, id_vacantion, name, description, salary, url
                         FROM vacantion
                         WHERE is_showed = False
                         ORDER BY date_published
                         LIMIT 1"""
         cursor.execute(read_query)
-        record = list((cursor.fetchall())[0])
+        record = list((cursor.fetchall())[0])        
         id_vacation = record[0]
         set_query = f"""UPDATE vacantion
                        SET is_showed = TRUE
                        WHERE id = {id_vacation}"""
         cursor.execute(set_query)
         connection.commit()
-        return ("*".join(record[1:]))
+        return ("*".join(record[2:]), record[1])
     except (Exception, Error) as error:
         print(error)
     finally:

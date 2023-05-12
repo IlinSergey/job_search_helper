@@ -6,8 +6,8 @@ API_KEY = OPEN_AI_KEY
 MODEL = "text-davinci-003"
 
 
-def openai_request(user_input: str):
-    prompt = user_input
+def get_covering_letter(vacancy_description: str) -> str:
+    prompt = f"Напиши сопроводительное письмо для отклика на следующую вакансию: {vacancy_description}"
     try:
         response = requests.post(
             "https://api.openai.com/v1/completions",
