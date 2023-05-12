@@ -15,7 +15,7 @@ def create_table():
     try:
         connection = connect()
         cursor = connection.cursor()
-        create_table_query = '''CREATE TABLE if NOT EXISTS vacantion
+        create_table_query = """CREATE TABLE if NOT EXISTS vacantion
                                  (id SERIAL PRIMARY KEY,
                                  id_vacantion INT NOT NULL unique,
                                  name VARCHAR NOT NULL,
@@ -24,7 +24,7 @@ def create_table():
                                  date_published timestamptz,
                                  salary VARCHAR,
                                  is_showed BOOLEAN DEFAULT FALSE);
-                                 '''
+                                 """
         cursor.execute(create_table_query)
         connection.commit()
     except (Exception, Error) as error:
@@ -39,8 +39,8 @@ def record_vacation(id_vacation, name, url, descript, date, salary):
     try:
         connection = connect()
         cursor = connection.cursor()
-        record_query = f'''INSERT INTO vacantion(id_vacantion, name, url, description, date_published, salary)
-                        VALUES({id_vacation}, '{name}', '{url}', '{descript}', '{date}', '{salary}');'''
+        record_query = f"""INSERT INTO vacantion(id_vacantion, name, url, description, date_published, salary)
+                        VALUES({id_vacation}, '{name}', '{url}', '{descript}', '{date}', '{salary}');"""
         cursor.execute(record_query)
         connection.commit()
     except (Exception, Error) as error:
@@ -55,17 +55,17 @@ def read_vacantion():
     try:
         connection = connect()
         cursor = connection.cursor()
-        read_query = '''SELECT id, name, description, salary, url
+        read_query = """SELECT id, name, description, salary, url
                         FROM vacantion
                         WHERE is_showed = False
                         ORDER BY date_published
-                        LIMIT 1'''
+                        LIMIT 1"""
         cursor.execute(read_query)
         record = list((cursor.fetchall())[0])
         id_vacation = record[0]
-        set_query = f'''UPDATE vacantion
+        set_query = f"""UPDATE vacantion
                        SET is_showed = TRUE
-                       WHERE id = {id_vacation}'''
+                       WHERE id = {id_vacation}"""
         cursor.execute(set_query)
         connection.commit()
         return ("*".join(record[1:]))
