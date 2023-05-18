@@ -10,10 +10,9 @@ class HHAgent:
     def get_response(self):
         url = "https://api.hh.ru/vacancies"
         params = {"User-Agent": "MyApp",
-                  "text": "Python",
+                  "text": "Python NOT Автор NOT Преподаватель NOT Data ",
                   "experience": ["noExperience", "between1And3"],
                   "vacancy_search_fields": ["name"],
-                  "professional_role": "96",
                   "resume_search_logic": "all",
                   "schedule": "remote",
                   "per_page": 100,

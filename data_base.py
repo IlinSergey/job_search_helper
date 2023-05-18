@@ -11,7 +11,7 @@ def connect():
         print(error)
 
 
-def create_table():
+def create_table_vacation():
     try:
         connection = connect()
         cursor = connection.cursor()
@@ -29,6 +29,46 @@ def create_table():
         connection.commit()
     except (Exception, Error) as error:
         print("Ошибка при работе с PostgreSQL", error)
+    finally:
+        if connection:
+            cursor.close()
+            connection.close()
+
+
+def create_table_user():
+    try:
+        connection = connect()
+        cursor = connection.cursor()
+        create_table_query = """CREATE TABLE if NOT EXISTS users
+                                 (id SERIAL PRIMARY KEY,
+                                 user_id INT NOT NULL unique,
+                                 first_name VARCHAR,
+                                 last_name VARCHAR,
+                                 username VARCHAR NOT NULL,
+                                 chat_id INT NOT NULL);
+                                 """
+        cursor.execute(create_table_query)
+        connection.commit()
+    except (Exception, Error) as error:
+        print("Ошибка при работе с PostgreSQL", error)
+    finally:
+        if connection:
+            cursor.close()
+            connection.close()
+
+
+def create_user(effective_user, chat_id):
+    try:
+        connection = connect()
+        cursor = connection.cursor()
+        record_query = f"""INSERT INTO users(user_id, first_name, last_name, username, chat_id)
+                        VALUES({effective_user.id}, '{effective_user.first_name}',
+                              '{effective_user.last_name}', '{effective_user.username}',
+                              {chat_id});"""
+        cursor.execute(record_query)
+        connection.commit()
+    except (Exception, Error) as error:
+        print(error)
     finally:
         if connection:
             cursor.close()
@@ -61,7 +101,7 @@ def read_vacantion():
                         ORDER BY date_published
                         LIMIT 1"""
         cursor.execute(read_query)
-        record = list((cursor.fetchall())[0])        
+        record = list((cursor.fetchall())[0])
         id_vacation = record[0]
         set_query = f"""UPDATE vacantion
                        SET is_showed = TRUE
@@ -75,3 +115,8 @@ def read_vacantion():
         if connection:
             cursor.close()
             connection.close()
+
+
+if __name__ == "__main__":
+    create_table_user()
+    create_table_vacation()
