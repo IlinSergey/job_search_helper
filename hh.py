@@ -7,16 +7,16 @@ from data_base import record_vacation, read_vacantion
 
 class HHAgent:
 
-    def get_response(self):
+    def get_response(self, vacancy_name):
         url = "https://api.hh.ru/vacancies"
         params = {"User-Agent": "MyApp",
-                  "text": "Python NOT Автор NOT Преподаватель NOT Data ",
+                  "text": {vacancy_name},
                   "experience": ["noExperience", "between1And3"],
                   "vacancy_search_fields": ["name"],
                   "resume_search_logic": "all",
                   "schedule": "remote",
                   "per_page": 100,
-                  "period": 10,
+                  "period": 1,
                   }
         response = requests.get(url, params=params)
         if response.status_code == 200:
@@ -24,19 +24,20 @@ class HHAgent:
         else:
             return False
 
-    def find_vacation(self):
-        response = self.get_response()
+    def find_vacation(self, vacancy_name, user_id):
+        response = self.get_response(vacancy_name)
         if response:
             for item in response["items"]:
                 try:
                     if item["salary"] != "None":
                         salary = f'от {item["salary"].get("from", "Не указано")} до {item["salary"].get("to", "Не указано")}'
+                        salary = salary.replace("None", "Не указано")
                     else:
                         salary = "Не указано"
                     description = (item["snippet"]["requirement"] + "\n"
                                    + item["snippet"]["responsibility"]).replace("<highlighttext>", "").replace("</highlighttext>", "")
                     record_vacation(int(item["id"]), item["name"], item["alternate_url"],
-                                    description, item["published_at"], salary)
+                                    description, item["published_at"], salary, user_id)
                 except Exception:
                     continue
 
