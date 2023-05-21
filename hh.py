@@ -2,7 +2,7 @@ import re
 
 import requests
 
-from data_base import record_vacation, read_vacantion
+from data_base import read_vacantion, record_vacation
 
 
 class HHAgent:

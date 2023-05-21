@@ -1,8 +1,7 @@
 from telegram.ext import CallbackContext
 
-from data_base import read_vacantion, find_vacancy_name
+from data_base import find_vacancy_name, read_vacantion
 from hh import HHAgent
-
 from utils import covering_letter
 
 hh = HHAgent()

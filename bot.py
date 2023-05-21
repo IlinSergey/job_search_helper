@@ -1,16 +1,16 @@
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import (ApplicationBuilder, CommandHandler, ContextTypes,
-                          CallbackQueryHandler, ConversationHandler, MessageHandler,
-                          filters)
 from warnings import filterwarnings
+
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram.ext import (ApplicationBuilder, CallbackQueryHandler,
+                          CommandHandler, ContextTypes, ConversationHandler,
+                          MessageHandler, filters)
 from telegram.warnings import PTBUserWarning
 
 from anketa import anketa_start, save_vacancy
 from config import TG_TOKEN
 from data_base import create_user, is_user
 from hh import HHAgent
-from jobs import update_db, send_vacation
-
+from jobs import send_vacation, update_db
 from openai import get_covering_letter
 
 filterwarnings(action="ignore", message=r".*CallbackQueryHandler", category=PTBUserWarning)

@@ -1,6 +1,7 @@
 import psycopg2
-from config import DB
 from psycopg2 import Error
+
+from config import DB
 
 
 def connect():
@@ -169,4 +170,3 @@ def read_vacantion(user_id):
 if __name__ == "__main__":
     create_table_user()
     create_table_vacation()
-
