@@ -21,4 +21,5 @@ def get_covering_letter(vacancy_description: str) -> str:
         final_result = "".join(choice["text"] for choice in result["choices"])
         return final_result
     else:
+        print(response.status_code)
         return "Возникла ошибка"
