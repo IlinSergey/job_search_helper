@@ -8,10 +8,11 @@ from telegram.warnings import PTBUserWarning
 
 from anketa import anketa_start, save_vacancy
 from config import TG_TOKEN
-from data_base import create_user, is_user, create_table_user, create_table_vacation
+from data_base import (create_table_user, create_table_vacation, create_user,
+                       is_user)
 from hh import HHAgent
 from jobs import send_vacation, update_db
-from openai import get_covering_letter
+from yagpt import get_covering_letter
 
 filterwarnings(action="ignore", message=r".*CallbackQueryHandler", category=PTBUserWarning)
 
