@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.10-alpine
 
 WORKDIR /app
 
@@ -12,6 +12,7 @@ COPY data_base.py /app/
 COPY hh.py /app/
 COPY jobs.py /app/
 COPY openai.py /app/
+COPY yagpt.py / app/
 COPY utils.py /app/
 
 CMD ["python", "bot.py"]

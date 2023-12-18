@@ -28,7 +28,7 @@ def get_covering_letter(vacancy_description: str) -> str:
             },
             {
                 "role": "user",
-                "text": vacancy_description,
+                "text": vacancy_description
             }
         ]
     }
