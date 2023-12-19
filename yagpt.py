@@ -1,6 +1,6 @@
 import json
 
-import requests
+import requests  # type: ignore
 
 from config import CATALOG_ID, YA_API_KEY
 

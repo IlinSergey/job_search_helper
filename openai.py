@@ -1,4 +1,4 @@
-import requests
+import requests  # type: ignore
 
 from config import OPEN_AI_KEY
 

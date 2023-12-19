@@ -56,8 +56,10 @@ async def letter(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     await query.answer()
     vacancy_id = update.callback_query.data
-    vacation_full_description = hh.get_description_about_vacation(int(vacancy_id))
-    letter = get_covering_letter(vacation_full_description)
+    if vacancy_id is not None:
+        vacation_full_description = hh.get_description_about_vacation(int(vacancy_id))
+    if isinstance(vacation_full_description, str):
+        letter = get_covering_letter(vacation_full_description)
     await update.callback_query.message.reply_text(letter)
 
 

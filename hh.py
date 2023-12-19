@@ -1,6 +1,6 @@
 import re
 
-import requests
+import requests  # type: ignore
 
 from data_base import read_vacantion, record_vacation
 
@@ -44,7 +44,7 @@ class HHAgent:
     def get_vacantion(self):
         return read_vacantion()
 
-    def get_description_about_vacation(self, vacation_id: int):
+    def get_description_about_vacation(self, vacation_id: int) -> str | bool:
         url = f"https://api.hh.ru/vacancies/{vacation_id}"
         response = requests.get(url)
         if response.status_code == 200:
