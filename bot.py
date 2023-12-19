@@ -31,7 +31,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         ]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text(f"Привет {update.effective_user.first_name}, для успешного поиска вакансий, необходимо заполнить анкету",
+    await update.message.reply_text(f"Привет {update.effective_user.first_name},"
+                                    f" для успешного поиска вакансий, необходимо заполнить анкету",
                                     reply_markup=reply_markup)
 
 
