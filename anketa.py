@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes, ConversationHandler
 
-from data_base import set_vacancy
+from data_base.user import set_vacancy
 
 
 async def anketa_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:

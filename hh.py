@@ -2,7 +2,8 @@ import re
 
 import requests  # type: ignore
 
-from data_base import read_vacantion, record_vacation
+from custom_types import HHVacancy
+from data_base.vacancy import record_vacancy
 
 
 class HHAgent:
@@ -36,13 +37,18 @@ class HHAgent:
                         salary = "Не указано"
                     description = (item["snippet"]["requirement"] + "\n"
                                    + item["snippet"]["responsibility"]).replace("<highlighttext>", "").replace("</highlighttext>", "")
-                    record_vacation(int(item["id"]), item["name"], item["alternate_url"],
-                                    description, item["published_at"], salary, user_id)
+
+                    vacancy = HHVacancy(
+                        id_vacantion=int(item['id']),
+                        name=item['name'],
+                        url=item['alternate_url'],
+                        descript=description,
+                        date_published=item['published_at'],
+                        salary=salary
+                    )
+                    record_vacancy(vacancy, user_id)
                 except Exception:
                     continue
-
-    def get_vacantion(self):
-        return read_vacantion()
 
     def get_description_about_vacation(self, vacation_id: int) -> str | bool:
         url = f"https://api.hh.ru/vacancies/{vacation_id}"

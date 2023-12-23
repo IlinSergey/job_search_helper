@@ -8,8 +8,8 @@ from telegram.warnings import PTBUserWarning
 
 from anketa import anketa_start, save_vacancy
 from config import TG_TOKEN
-from data_base import (create_table_user, create_table_vacation, create_user,
-                       is_user)
+from data_base.models import create_tables
+from data_base.user import create_user, is_user_in_db
 from hh import HHAgent
 from jobs import send_vacation, update_db
 from yagpt import get_covering_letter
@@ -21,9 +21,8 @@ hh = HHAgent()
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    create_table_user()
-    create_table_vacation()
-    if not is_user(update.effective_user.id):
+    create_tables()
+    if not is_user_in_db(update.effective_user):
         create_user(update.effective_user, update.message.chat_id)
     keyboard = [
         [

@@ -38,5 +38,9 @@ class Vacancy(Base):
         return f'{self.name} ({self.salary})'
 
 
+def create_tables() -> None:
+    Base.metadata.create_all(bind=engine)
+
+
 if __name__ == '__main__':
     Base.metadata.create_all(bind=engine)
