@@ -13,6 +13,6 @@ COPY hh.py /app/
 COPY jobs.py /app/
 COPY openai.py /app/
 COPY yagpt.py / app/
-COPY utils.py /app/
+COPY services.py /app/
 
 CMD ["python", "bot.py"]

@@ -2,7 +2,7 @@ import json
 
 import requests  # type: ignore
 
-from config import CATALOG_ID, YA_API_KEY
+from utils.config import CATALOG_ID, YA_API_KEY
 
 
 def get_covering_letter(vacancy_description: str) -> str:

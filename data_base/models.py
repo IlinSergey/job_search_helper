@@ -1,7 +1,8 @@
-from db import Base, engine
 from sqlalchemy import (Boolean, Column, DateTime, ForeignKey, Integer, String,
                         Text)
 from sqlalchemy.orm import relationship
+
+from data_base.db import Base, engine
 
 
 class User(Base):
@@ -14,6 +15,7 @@ class User(Base):
     username = Column(String(length=100), nullable=False)
     chat_id = Column(Integer, nullable=False)
     vacancy = Column(Text)
+    vacancies = relationship('Vacancy', back_populates='user')
 
     def __repr__(self):
         return f"User {self.username}, user_id {self.user_id}"

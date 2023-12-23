@@ -2,7 +2,7 @@ import re
 
 import requests  # type: ignore
 
-from custom_types import HHVacancy
+from utils.custom_types import HHVacancy
 from data_base.vacancy import record_vacancy
 
 
@@ -30,7 +30,7 @@ class HHAgent:
         if response:
             for item in response["items"]:
                 try:
-                    if item["salary"] != "None":
+                    if item["salary"] is not None:
                         salary = f'от {item["salary"].get("from", "Не указано")} до {item["salary"].get("to", "Не указано")}'
                         salary = salary.replace("None", "Не указано")
                     else:

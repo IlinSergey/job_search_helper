@@ -1,6 +1,6 @@
 import requests  # type: ignore
 
-from config import OPEN_AI_KEY
+from utils.config import OPEN_AI_KEY
 
 API_KEY = OPEN_AI_KEY
 MODEL = "text-davinci-003"

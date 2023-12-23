@@ -13,6 +13,6 @@ async def anketa_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> st
 
 async def save_vacancy(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     text = update.message.text
-    set_vacancy(update.effective_user, text)
+    set_vacancy(update.effective_user, text)  # type: ignore [arg-type]
     await update.message.reply_text(f"Ваканcии будут искаться по запросу {text}")
     return ConversationHandler.END

@@ -6,13 +6,13 @@ from telegram.ext import (ApplicationBuilder, CallbackQueryHandler,
                           MessageHandler, filters)
 from telegram.warnings import PTBUserWarning
 
-from anketa import anketa_start, save_vacancy
-from config import TG_TOKEN
 from data_base.models import create_tables
 from data_base.user import create_user, is_user_in_db
-from hh import HHAgent
-from jobs import send_vacation, update_db
-from yagpt import get_covering_letter
+from services.hh import HHAgent
+from services.jobs import send_vacation, update_db
+from services.yagpt import get_covering_letter
+from utils.anketa import anketa_start, save_vacancy
+from utils.config import TG_TOKEN
 
 filterwarnings(action="ignore", message=r".*CallbackQueryHandler", category=PTBUserWarning)
 
@@ -22,8 +22,8 @@ hh = HHAgent()
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     create_tables()
-    if not is_user_in_db(update.effective_user):
-        create_user(update.effective_user, update.message.chat_id)
+    if not is_user_in_db(update.effective_user):  # type: ignore [arg-type]
+        create_user(update.effective_user, update.message.chat_id)  # type: ignore [arg-type]
     keyboard = [
         [
             InlineKeyboardButton("Заполнить анкету", callback_data="анкета")
