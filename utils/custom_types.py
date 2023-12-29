@@ -9,9 +9,3 @@ class HHVacancy(TypedDict):
     descript: str
     date_published: datetime
     salary: str
-
-import requests
-
-print(HHVacancy)
-
-hh=HHVacancy()
