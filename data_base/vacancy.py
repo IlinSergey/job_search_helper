@@ -1,7 +1,6 @@
-from utils.custom_types import HHVacancy
-
 from data_base.db import db_session
 from data_base.models import Vacancy
+from utils.custom_types import HHVacancy
 
 
 def record_vacancy(vacancy: HHVacancy, user_id: int) -> None:
@@ -20,7 +19,7 @@ def record_vacancy(vacancy: HHVacancy, user_id: int) -> None:
 
 
 def read_vacancy(user_id: int) -> tuple[str, int] | None:
-    vacancy = Vacancy.query.filter((Vacancy.user_id == user_id) & (Vacancy.is_showed == False)).first()
+    vacancy = Vacancy.query.filter((Vacancy.user_id == user_id) & (Vacancy.is_showed == False)).first()  # noqa: E712
     if vacancy:
         vacancy.is_showed = True
         db_session.commit()

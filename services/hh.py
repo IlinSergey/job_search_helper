@@ -2,8 +2,8 @@ import re
 
 import requests  # type: ignore
 
-from utils.custom_types import HHVacancy
 from data_base.vacancy import record_vacancy
+from utils.custom_types import HHVacancy
 
 
 class HHAgent:
@@ -11,7 +11,7 @@ class HHAgent:
     def get_response(self, vacancy_name):
         url = "https://api.hh.ru/vacancies"
         params = {"User-Agent": "MyApp",
-                  "text": f"{vacancy_name} NOT Аналитик NOT Devops NOT DevOps NOT Менеджер NOT Data NOT Инженер NOT Преподаватель",
+                  "text": f"{vacancy_name} NOT Аналитик NOT Devops NOT DevOps NOT Менеджер NOT Data NOT Инженер NOT Преподаватель",  # noqa: E501
                   "experience": ["noExperience", "between1And3"],
                   "vacancy_search_fields": ["name"],
                   "resume_search_logic": "all",
@@ -31,12 +31,12 @@ class HHAgent:
             for item in response["items"]:
                 try:
                     if item["salary"] is not None:
-                        salary = f'от {item["salary"].get("from", "Не указано")} до {item["salary"].get("to", "Не указано")}'
+                        salary = f'от {item["salary"].get("from", "Не указано")} до {item["salary"].get("to", "Не указано")}'  # noqa: E501
                         salary = salary.replace("None", "Не указано")
                     else:
                         salary = "Не указано"
                     description = (item["snippet"]["requirement"] + "\n"
-                                   + item["snippet"]["responsibility"]).replace("<highlighttext>", "").replace("</highlighttext>", "")
+                                   + item["snippet"]["responsibility"]).replace("<highlighttext>", "").replace("</highlighttext>", "")  # noqa: E501
 
                     vacancy = HHVacancy(
                         id_vacantion=int(item['id']),

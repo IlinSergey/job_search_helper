@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import pytest
-from telegram import Bot, Chat, Message, User
+from telegram import Chat, Message, User
 
 
 @pytest.fixture
