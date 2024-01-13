@@ -1,3 +1,4 @@
+import logging
 from warnings import filterwarnings
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
@@ -18,6 +19,10 @@ filterwarnings(action="ignore", message=r".*CallbackQueryHandler", category=PTBU
 
 
 hh = HHAgent()
+
+logging.basicConfig(level=logging.INFO,
+                    filename="logs.log",
+                    format="%(asctime)s %(levelname)s %(message)s %(name)s",)
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
