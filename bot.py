@@ -13,7 +13,7 @@ from services.yagpt import get_covering_letter
 from utils.anketa import anketa_start, save_vacancy
 from utils.config import TG_TOKEN
 from utils.custom_filtesrs import FilterIsUser
-from utils.keyboards import start_keyboard
+from utils.keyboards import START_KEYBOARD
 
 filterwarnings(action="ignore", message=r".*CallbackQueryHandler", category=PTBUserWarning)
 
@@ -25,7 +25,7 @@ is_user_filter = FilterIsUser()
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(f"Привет {update.effective_user.first_name},"
                                     f" для успешного поиска вакансий, необходимо заполнить анкету",
-                                    reply_markup=start_keyboard)
+                                    reply_markup=START_KEYBOARD)
 
 
 async def run(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
