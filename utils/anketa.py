@@ -34,5 +34,8 @@ async def save_vacancy(update: Update, context: ContextTypes.DEFAULT_TYPE) -> st
 
 
 async def save_experience(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    await update.message.reply_text("Данные для поиска сохранены!")
+    query = update.callback_query
+    await query.answer()
+    if query:
+        await query.edit_message_text("Данные для поиска сохранены!")
     return ConversationHandler.END

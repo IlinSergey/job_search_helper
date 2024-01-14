@@ -72,7 +72,7 @@ def main() -> None:
         ],
         states={
             "vacancy_name": [MessageHandler(filters.TEXT, save_vacancy)],
-            "experience": [MessageHandler(filters.TEXT, save_experience)]
+            "experience": [CallbackQueryHandler(save_experience)]
         },
         fallbacks=[]
     )
