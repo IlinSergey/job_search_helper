@@ -57,6 +57,7 @@ async def stop(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def letter(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    logging.info("Запрашиваем сопроводительное письмо")
     await update.callback_query.message.reply_text("Готовим сопроводительное письмо, это займет какое-то время...")
     query = update.callback_query
     await query.answer()

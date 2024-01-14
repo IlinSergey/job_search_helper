@@ -1,9 +1,12 @@
+import logging
 import re
 
 import requests  # type: ignore
 
 from data_base.vacancy import record_vacancy
 from utils.custom_types import HHVacancy
+
+logger = logging.getLogger(__name__)
 
 
 class HHAgent:
@@ -23,6 +26,7 @@ class HHAgent:
         if response.status_code == 200:
             return response.json()
         else:
+            logger.warning("Не получили данных с HH!")
             return False
 
     def find_vacation(self, vacancy_name, user_id):
@@ -59,4 +63,5 @@ class HHAgent:
             description_text = re.sub(r"<[^>]+>", "", description, flags=re.S)
             return description_text
         else:
+            logger.warning(F"Не получили детальное описание вакансии с id {vacation_id}")
             return False
