@@ -11,7 +11,7 @@ from data_base.user import create_user, is_user_in_db
 from services.hh import HHAgent
 from services.jobs import send_vacation, update_db
 from services.yagpt import get_covering_letter
-from utils.anketa import anketa_start, save_vacancy
+from utils.anketa import anketa_start, save_experience, save_vacancy
 from utils.config import TG_TOKEN
 
 filterwarnings(action="ignore", message=r".*CallbackQueryHandler", category=PTBUserWarning)
@@ -71,7 +71,8 @@ def main() -> None:
             CallbackQueryHandler(anketa_start, pattern="^(анкета)$")
         ],
         states={
-            "vacancy_name": [MessageHandler(filters.TEXT, save_vacancy)]
+            "vacancy_name": [MessageHandler(filters.TEXT, save_vacancy)],
+            "experience": [CallbackQueryHandler(save_experience)]
         },
         fallbacks=[]
     )
