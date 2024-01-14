@@ -63,8 +63,8 @@ async def letter(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.callback_query.message.reply_text(letter)
 
 
-def main():
-    app = ApplicationBuilder().token(TG_TOKEN).build()
+def main() -> None:
+    app = ApplicationBuilder().token(TG_TOKEN).build()  # type: ignore [arg-type]
 
     anketa = ConversationHandler(
         entry_points=[
