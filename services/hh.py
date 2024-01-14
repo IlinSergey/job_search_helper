@@ -1,4 +1,5 @@
 import re
+from time import sleep
 
 import requests  # type: ignore
 
@@ -22,6 +23,9 @@ class HHAgent:
         response = requests.get(url, params=params)
         if response.status_code == 200:
             return response.json()
+        elif response.status_code == 429:
+            sleep(0.2)
+            return False
         else:
             return False
 
