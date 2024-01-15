@@ -1,5 +1,6 @@
 SRC_DIR = .
 IGNORE_DIR = env .pytest_cache .mypy_cache __pycache__ .vscode
+
 TEST_DIR = tests
 
 MYPY_FLAGS = --ignore-missing-imports

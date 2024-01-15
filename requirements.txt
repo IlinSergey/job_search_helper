@@ -1,4 +1,5 @@
 aiosignal==1.3.1
+alembic==1.13.1
 anyio==3.6.2
 APScheduler==3.10.1
 async-timeout==4.0.2
@@ -27,6 +28,8 @@ identify==2.5.33
 idna==3.4
 iniconfig==2.0.0
 isort==5.12.0
+Mako==1.3.0
+MarkupSafe==2.1.3
 mccabe==0.7.0
 multidict==6.0.4
 mypy==1.7.1
@@ -40,7 +43,7 @@ psycopg2-binary==2.9.6
 pycodestyle==2.10.0
 pyflakes==3.0.1
 pytest==7.4.3
-pytest-cov==4.1.0
+pytest-asyncio==0.23.3
 python-dotenv==1.0.0
 python-telegram-bot==20.3
 pytz==2023.3
