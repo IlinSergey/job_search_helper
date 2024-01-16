@@ -1,6 +1,6 @@
 from warnings import filterwarnings
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram import InlineKeyboardMarkup, Update
 from telegram.ext import (ApplicationBuilder, CallbackQueryHandler,
                           CommandHandler, ContextTypes, ConversationHandler,
                           MessageHandler, filters)
@@ -11,8 +11,10 @@ from data_base.user import create_user, is_user_in_db
 from services.hh import HHAgent
 from services.jobs import send_vacation, update_db
 from services.yagpt import get_covering_letter
-from utils.anketa import anketa_start, save_experience, save_vacancy
+from utils.anketa import (anketa_start, save_employment, save_experience,
+                          save_schedule, save_vacancy)
 from utils.config import TG_TOKEN
+from utils.keyboards import anketa_start_keyboard
 
 filterwarnings(action="ignore", message=r".*CallbackQueryHandler", category=PTBUserWarning)
 
@@ -24,12 +26,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     create_tables()
     if not is_user_in_db(update.effective_user):  # type: ignore [arg-type]
         create_user(update.effective_user, update.message.chat_id)  # type: ignore [arg-type]
-    keyboard = [
-        [
-            InlineKeyboardButton("Заполнить анкету", callback_data="анкета")
-        ]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
+    reply_markup = InlineKeyboardMarkup(anketa_start_keyboard)
     await update.message.reply_text(f"Привет {update.effective_user.first_name},"
                                     f" для успешного поиска вакансий, необходимо заполнить анкету",
                                     reply_markup=reply_markup)
@@ -72,7 +69,9 @@ def main() -> None:
         ],
         states={
             "vacancy_name": [MessageHandler(filters.TEXT, save_vacancy)],
-            "experience": [CallbackQueryHandler(save_experience)]
+            "experience": [CallbackQueryHandler(save_experience)],
+            "type_of_employment": [CallbackQueryHandler(save_employment)],
+            "schedule": [CallbackQueryHandler(save_schedule)],
         },
         fallbacks=[]
     )
