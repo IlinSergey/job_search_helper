@@ -1,24 +1,27 @@
 import logging
 from warnings import filterwarnings
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram import Update
 from telegram.ext import (ApplicationBuilder, CallbackQueryHandler,
                           CommandHandler, ContextTypes, ConversationHandler,
                           MessageHandler, filters)
 from telegram.warnings import PTBUserWarning
 
 from data_base.models import create_tables
-from data_base.user import create_user, is_user_in_db
 from services.hh import HHAgent
 from services.jobs import send_vacation, update_db
 from services.yagpt import get_covering_letter
-from utils.anketa import anketa_start, save_vacancy
+from utils.anketa import (anketa_start, save_employment, save_experience,
+                          save_schedule, save_vacancy)
 from utils.config import TG_TOKEN
+from utils.custom_filtesrs import FilterIsUser
+from utils.keyboards import START_KEYBOARD
 
 filterwarnings(action="ignore", message=r".*CallbackQueryHandler", category=PTBUserWarning)
 
 
 hh = HHAgent()
+is_user_filter = FilterIsUser()
 
 logging.basicConfig(level=logging.INFO,
                     filename="logs.log",
@@ -26,18 +29,9 @@ logging.basicConfig(level=logging.INFO,
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    create_tables()
-    if not is_user_in_db(update.effective_user):  # type: ignore [arg-type]
-        create_user(update.effective_user, update.message.chat_id)  # type: ignore [arg-type]
-    keyboard = [
-        [
-            InlineKeyboardButton("Заполнить анкету", callback_data="анкета")
-        ]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
     await update.message.reply_text(f"Привет {update.effective_user.first_name},"
                                     f" для успешного поиска вакансий, необходимо заполнить анкету",
-                                    reply_markup=reply_markup)
+                                    reply_markup=START_KEYBOARD)
 
 
 async def run(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -69,20 +63,23 @@ async def letter(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.callback_query.message.reply_text(letter)
 
 
-def main():
-    app = ApplicationBuilder().token(TG_TOKEN).build()
+def main() -> None:
+    app = ApplicationBuilder().token(TG_TOKEN).build()  # type: ignore [arg-type]
 
     anketa = ConversationHandler(
         entry_points=[
             CallbackQueryHandler(anketa_start, pattern="^(анкета)$")
         ],
         states={
-            "vacancy_name": [MessageHandler(filters.TEXT, save_vacancy)]
+            "vacancy_name": [MessageHandler(filters.TEXT, save_vacancy)],
+            "experience": [CallbackQueryHandler(save_experience)],
+            "type_of_employment": [CallbackQueryHandler(save_employment)],
+            "schedule": [CallbackQueryHandler(save_schedule)],
         },
         fallbacks=[]
     )
     app.add_handler(anketa)
-    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("start", start, is_user_filter))
     app.add_handler(CommandHandler("run", run))
     app.add_handler(CommandHandler("stop", stop))
 
@@ -92,4 +89,5 @@ def main():
 
 
 if __name__ == "__main__":
+    create_tables()
     main()

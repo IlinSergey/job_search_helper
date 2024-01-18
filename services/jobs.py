@@ -11,7 +11,8 @@ hh = HHAgent()
 async def update_db(context: CallbackContext) -> None:
     user_id = context._user_id
     vacancy_name = find_vacancy_name(user_id)  # type: ignore [arg-type]
-    hh.find_vacation(vacancy_name, user_id)
+    if vacancy_name:
+        hh.find_vacation(vacancy_name, user_id)  # type: ignore [arg-type]
 
 
 async def send_vacation(context: CallbackContext) -> None:

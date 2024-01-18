@@ -45,7 +45,8 @@ def get_covering_letter(vacancy_description: str) -> str:
     response = requests.post(url, headers=headers, json=prompt)
     if response.status_code == 200:
         json_result = json.loads(response.text)
-        letter = json_result['result']['alternatives'][0]['message']['text'].strip()
+        letter = json_result["result"]["alternatives"][0]["message"]["text"].strip()
         return letter
+
     logger.info(f"При запросе к YaGPT возникла ошибка {response.status_code}")
     return f'Произошла ошибка {response.status_code}'

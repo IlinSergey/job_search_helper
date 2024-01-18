@@ -1,5 +1,7 @@
 import logging
 import re
+from time import sleep
+from typing import Any
 
 import requests  # type: ignore
 
@@ -11,10 +13,10 @@ logger = logging.getLogger(__name__)
 
 class HHAgent:
 
-    def get_response(self, vacancy_name):
+    def get_response(self, vacancy_name: str) -> dict[str, Any] | bool:
         url = "https://api.hh.ru/vacancies"
         params = {"User-Agent": "MyApp",
-                  "text": f"{vacancy_name} NOT Аналитик NOT Devops NOT DevOps NOT Менеджер NOT Data NOT Инженер NOT Преподаватель",  # noqa: E501
+                  "text": vacancy_name,
                   "experience": ["noExperience", "between1And3"],
                   "vacancy_search_fields": ["name"],
                   "resume_search_logic": "all",
@@ -25,14 +27,17 @@ class HHAgent:
         response = requests.get(url, params=params)
         if response.status_code == 200:
             return response.json()
+        elif response.status_code == 429:
+            sleep(0.2)
+            return False
         else:
             logger.warning("Не получили данных с HH!")
             return False
 
-    def find_vacation(self, vacancy_name, user_id):
+    def find_vacation(self, vacancy_name: str, user_id: int) -> None:
         response = self.get_response(vacancy_name)
         if response:
-            for item in response["items"]:
+            for item in response["items"]:  # type: ignore[index]
                 try:
                     if item["salary"] is not None:
                         salary = f'от {item["salary"].get("from", "Не указано")} до {item["salary"].get("to", "Не указано")}'  # noqa: E501
