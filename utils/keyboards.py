@@ -16,6 +16,12 @@ def covering_letter_keyboard(vacancy_id: int) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(keyboard)
 
 
+START_KEYBOARD = InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("Заполнить анкету", callback_data="анкета")
+        ]
+    ])
+
 experience_keyboard = [
     [
         InlineKeyboardButton("Нет опыта", callback_data="noExperience"),
