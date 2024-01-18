@@ -1,6 +1,8 @@
 from warnings import filterwarnings
 
+
 from telegram import Update
+
 from telegram.ext import (ApplicationBuilder, CallbackQueryHandler,
                           CommandHandler, ContextTypes, ConversationHandler,
                           MessageHandler, filters)
@@ -10,10 +12,13 @@ from data_base.models import create_tables
 from services.hh import HHAgent
 from services.jobs import send_vacation, update_db
 from services.yagpt import get_covering_letter
-from utils.anketa import anketa_start, save_vacancy
+from utils.anketa import (anketa_start, save_employment, save_experience,
+                          save_schedule, save_vacancy)
 from utils.config import TG_TOKEN
+
 from utils.custom_filtesrs import FilterIsUser
 from utils.keyboards import START_KEYBOARD
+
 
 filterwarnings(action="ignore", message=r".*CallbackQueryHandler", category=PTBUserWarning)
 
@@ -56,15 +61,18 @@ async def letter(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.callback_query.message.reply_text(letter)
 
 
-def main():
-    app = ApplicationBuilder().token(TG_TOKEN).build()
+def main() -> None:
+    app = ApplicationBuilder().token(TG_TOKEN).build()  # type: ignore [arg-type]
 
     anketa = ConversationHandler(
         entry_points=[
             CallbackQueryHandler(anketa_start, pattern="^(анкета)$")
         ],
         states={
-            "vacancy_name": [MessageHandler(filters.TEXT, save_vacancy)]
+            "vacancy_name": [MessageHandler(filters.TEXT, save_vacancy)],
+            "experience": [CallbackQueryHandler(save_experience)],
+            "type_of_employment": [CallbackQueryHandler(save_employment)],
+            "schedule": [CallbackQueryHandler(save_schedule)],
         },
         fallbacks=[]
     )
