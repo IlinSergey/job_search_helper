@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import (Boolean, Column, DateTime, ForeignKey, Integer, String,
                         Text)
 from sqlalchemy.orm import relationship
@@ -15,6 +17,7 @@ class User(Base):
     username = Column(String(length=100), nullable=False)
     chat_id = Column(Integer, nullable=False)
     vacancy = Column(Text)
+    created_at = Column(DateTime, default=datetime.now())
     vacancies = relationship('Vacancy', back_populates='user')
 
     def __repr__(self):
