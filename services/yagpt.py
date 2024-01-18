@@ -1,11 +1,15 @@
 import json
+import logging
 
 import requests  # type: ignore
 
 from utils.config import CATALOG_ID, YA_API_KEY
 
+logger = logging.getLogger(__name__)
+
 
 def get_covering_letter(vacancy_description: str) -> str:
+    logger.info("Запрос к YaGPT")
     prompt = {
         "modelUri": f"gpt://{CATALOG_ID}/yandexgpt-lite",
         "completionOptions": {
@@ -43,4 +47,6 @@ def get_covering_letter(vacancy_description: str) -> str:
         json_result = json.loads(response.text)
         letter = json_result["result"]["alternatives"][0]["message"]["text"].strip()
         return letter
-    return f"Произошла ошибка {response.status_code}"
+
+    logger.info(f"При запросе к YaGPT возникла ошибка {response.status_code}")
+    return f'Произошла ошибка {response.status_code}'

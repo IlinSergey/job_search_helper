@@ -1,3 +1,4 @@
+import logging
 from warnings import filterwarnings
 
 from telegram import Update
@@ -21,6 +22,10 @@ filterwarnings(action="ignore", message=r".*CallbackQueryHandler", category=PTBU
 
 hh = HHAgent()
 is_user_filter = FilterIsUser()
+
+logging.basicConfig(level=logging.INFO,
+                    filename="logs.log",
+                    format="%(asctime)s %(levelname)s %(message)s %(name)s",)
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -46,6 +51,7 @@ async def stop(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def letter(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    logging.info("Запрашиваем сопроводительное письмо")
     await update.callback_query.message.reply_text("Готовим сопроводительное письмо, это займет какое-то время...")
     query = update.callback_query
     await query.answer()
