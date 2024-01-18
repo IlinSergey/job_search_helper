@@ -1,8 +1,8 @@
-import keyboards
 from telegram import InlineKeyboardMarkup, Update
 from telegram.ext import ContextTypes, ConversationHandler
 
 from data_base.user import set_vacancy
+from utils import keyboards
 
 
 async def anketa_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:

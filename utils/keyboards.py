@@ -1,11 +1,5 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
-anketa_start_keyboard = [
-    [
-        InlineKeyboardButton("Заполнить анкету", callback_data="анкета")
-    ]
-]
-
 
 def covering_letter_keyboard(vacancy_id: int) -> InlineKeyboardMarkup:
     keyboard = [
