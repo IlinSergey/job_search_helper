@@ -16,7 +16,7 @@ START_KEYBOARD = InlineKeyboardMarkup([
         ]
     ])
 
-experience_keyboard = [
+EXPERIENCE_KEYBOARD = [
     [
         InlineKeyboardButton("Нет опыта", callback_data="noExperience"),
     ],
@@ -31,7 +31,7 @@ experience_keyboard = [
     ],
 ]
 
-employment_keyboard = [
+EMPLOYMENT_KEYBOARD = [
     [
         InlineKeyboardButton("Полная занятость", callback_data="full"),
         InlineKeyboardButton("Частичная занятость", callback_data="part")
@@ -42,7 +42,7 @@ employment_keyboard = [
     ],
 ]
 
-schedule_keyboard = [
+SCHEDULE_KEYBOARD = [
     [
         InlineKeyboardButton("Удаленная работа", callback_data="remote"),
         InlineKeyboardButton("Полный день", callback_data="fullDay")

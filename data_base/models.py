@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from sqlalchemy import (Boolean, Column, DateTime, ForeignKey, Integer, String,
-                        Text)
+from sqlalchemy import (Boolean, Column, CheckConstraint, DateTime,
+                        ForeignKey, Integer, String, Text)
 from sqlalchemy.orm import relationship
 
 from data_base.db import Base, engine
@@ -16,12 +16,28 @@ class User(Base):
     last_name = Column(String(length=50))
     username = Column(String(length=100), nullable=False)
     chat_id = Column(Integer, nullable=False)
-    vacancy = Column(Text)
     created_at = Column(DateTime, default=datetime.now())
     vacancies = relationship('Vacancy', back_populates='user')
 
     def __repr__(self):
         return f"User {self.username}, user_id {self.user_id}"
+
+
+class SearchParams(Base):
+    __tablename__ = 'search_params'
+
+    vacancy_name = Column(Text)
+    experience = Column(String(length=20))
+    type_of_employment = Column(String(length=20))
+    schedule = Column(String(length=20))
+
+    __table_args__ = (
+        CheckConstraint(
+            experience.in_(['noExperience', 'between1And3', 'between3And6', 'moreThan6']) &
+            type_of_employment.in_(['full', 'part', 'project', 'probation']) &
+            schedule.in_(['fullDay', 'shift', 'remote', 'flexible']),
+            name='check_constraints'),
+    )
 
 
 class Vacancy(Base):
