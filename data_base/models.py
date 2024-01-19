@@ -29,12 +29,12 @@ class User(Base):
 class SearchParams(Base):
     __tablename__ = "search_params"
 
-    id: Mapped[intpk]  # noqa: A003 VNE003
     vacancy_name: Mapped[str] = mapped_column(String(length=120))
     experience: Mapped[enums.Experience]
     type_of_employment: Mapped[enums.Employment]
     schedule: Mapped[enums.Schedule]
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.user_id", ondelete='CASCADE'))
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.user_id", ondelete='CASCADE'),
+                                         primary_key=True)
 
     def __repr__(self):
         return f"{self.vacancy_name}, {self.experience}, {self.type_of_employment}, {self.schedule}"

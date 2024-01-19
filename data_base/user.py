@@ -11,7 +11,6 @@ def create_user(effective_user: tg_user, chat_id: int) -> None:
         last_name=effective_user.last_name,
         username=effective_user.username,
         chat_id=chat_id,
-        vacancy='None',
     )
     Base.db_session.add(user)
     Base.db_session.commit()

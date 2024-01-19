@@ -9,3 +9,10 @@ class HHVacancy(TypedDict):
     descript: str
     date_published: datetime
     salary: str
+
+
+class SearchParams(TypedDict):
+    vacancy_name: str
+    experience: str
+    type_of_employment: str
+    schedule: str
