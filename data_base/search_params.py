@@ -13,12 +13,26 @@ def create_search_params(user_id: int, search_params: SearchParamsType) -> None:
         schedule=search_params['schedule'],
         user_id=user_id
     )
-    try:
-        search_params = Base.db_session.get(SearchParams, user_id)
-        search_params.vacancy_name = params.vacancy_name  # type: ignore [attr-defined]
-        search_params.experience = params.experience  # type: ignore [attr-defined]
-        search_params.type_of_employment = params.type_of_employment  # type: ignore [attr-defined]
-        search_params.schedule = params.schedule  # type: ignore [attr-defined]
-    except NoResultFound:
+    search_params_in_db: SearchParams | None = Base.db_session.get(SearchParams, user_id)
+    if search_params_in_db is not None:
+        search_params_in_db.vacancy_name = params.vacancy_name
+        search_params_in_db.experience = params.experience
+        search_params_in_db.type_of_employment = params.type_of_employment
+        search_params_in_db.schedule = params.schedule
+    else:
         Base.db_session.add(params)
     Base.db_session.commit()
+
+
+def get_search_params(user_id: int) -> SearchParamsType | None:
+    try:
+        search_params = Base.db_session.get(SearchParams, user_id)
+        result = SearchParamsType(
+            vacancy_name=search_params.vacancy_name,
+            experience=search_params.experience.value,
+            type_of_employment=search_params.type_of_employment.value,
+            schedule=search_params.schedule.value,
+        )
+        return result
+    except NoResultFound:
+        return None

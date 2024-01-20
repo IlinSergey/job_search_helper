@@ -5,6 +5,6 @@ from utils.config import DB
 
 
 class Base(DeclarativeBase):
-    engine = create_engine(url=DB)
+    engine = create_engine(url=DB)  # type: ignore [arg-type]
     db_session = scoped_session(sessionmaker(bind=engine))
     query = db_session.query_property()

@@ -6,21 +6,22 @@ from typing import Any
 import requests  # type: ignore
 
 from data_base.vacancy import record_vacancy
-from utils.custom_types import HHVacancy
+from utils.custom_types import HHVacancy, SearchParams
 
 logger = logging.getLogger(__name__)
 
 
 class HHAgent:
 
-    def get_response(self, vacancy_name: str) -> dict[str, Any] | bool:
+    def get_response(self, search_params: SearchParams) -> dict[str, Any] | bool:
         url = "https://api.hh.ru/vacancies"
         params = {"User-Agent": "MyApp",
-                  "text": vacancy_name,
-                  "experience": ["noExperience", "between1And3"],
+                  "text": search_params["vacancy_name"],
+                  "experience": [search_params["experience"],],
                   "vacancy_search_fields": ["name"],
                   "resume_search_logic": "all",
-                  "schedule": "remote",
+                  "schedule": search_params["schedule"],
+                  "employment": [search_params["type_of_employment"],],
                   "per_page": 100,
                   "period": 1,
                   }
@@ -31,11 +32,11 @@ class HHAgent:
             sleep(0.2)
             return False
         else:
-            logger.warning("Не получили данных с HH!")
+            logger.warning(f"Не получили данных с HH! {params=}")
             return False
 
-    def find_vacation(self, vacancy_name: str, user_id: int) -> None:
-        response = self.get_response(vacancy_name)
+    def find_vacation(self, search_params: SearchParams, user_id: int) -> None:
+        response = self.get_response(search_params)
         if response:
             for item in response["items"]:  # type: ignore[index]
                 try:
@@ -68,5 +69,5 @@ class HHAgent:
             description_text = re.sub(r"<[^>]+>", "", description, flags=re.S)
             return description_text
         else:
-            logger.warning(F"Не получили детальное описание вакансии с id {vacation_id}")
+            logger.warning(F"Не получили детальное описание вакансии с id {vacation_id=}")
             return False
