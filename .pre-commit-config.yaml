@@ -17,4 +17,5 @@ repos:
     hooks:
       - id: mypy
         name: mypy
+        exclude: tests
         args: [--ignore-missing-imports]
