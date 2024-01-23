@@ -45,6 +45,7 @@ async def stop(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     current_jobs = context.job_queue.jobs()
     if not current_jobs:
         await update.message.reply_text("Ничего не запущено")
+        return
     for job in current_jobs:
         job.schedule_removal()
     await update.message.reply_text("Автоматический поиск остановлен")
