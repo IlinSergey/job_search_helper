@@ -45,10 +45,10 @@ async def stop(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     current_jobs = context.job_queue.jobs()
     if not current_jobs:
         await update.message.reply_text("Ничего не запущено")
-        return
-    for job in current_jobs:
-        job.schedule_removal()
-    await update.message.reply_text("Автоматический поиск остановлен")
+    else:
+        for job in current_jobs:
+            job.schedule_removal()
+        await update.message.reply_text("Автоматический поиск остановлен")
 
 
 async def letter(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -59,9 +59,9 @@ async def letter(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     vacancy_id = update.callback_query.data
     if vacancy_id is not None:
         vacation_full_description = hh.get_description_about_vacation(int(vacancy_id))
-    if isinstance(vacation_full_description, str):
-        letter = get_covering_letter(vacation_full_description)
-    await update.callback_query.message.reply_text(letter)
+        if isinstance(vacation_full_description, str):
+            letter_result = get_covering_letter(vacation_full_description)
+            await update.callback_query.message.reply_text(letter_result)
 
 
 def main() -> None:
