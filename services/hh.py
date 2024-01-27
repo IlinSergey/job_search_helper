@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class HHAgent:
-    
+
     def get_response(self, search_params: SearchParams) -> dict[str, Any] | bool:
         max_retries = 3
         delay_seconds = 0.5
