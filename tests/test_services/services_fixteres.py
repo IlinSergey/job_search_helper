@@ -92,3 +92,28 @@ def description_vacation_text():
                 "accept_temporary": False,
                 "languages": []}
     return response
+
+
+@pytest.fixture(scope="session")
+def covering_letter_from_openai_response():
+    response = {
+                "id": "cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7",
+                "object": "text_completion",
+                "created": 1589478378,
+                "model": "gpt-3.5-turbo-instruct",
+                "system_fingerprint": "fp_44709d6fcb",
+                "choices": [
+                    {
+                        "text": "Test covering letter from OpenAI service",
+                        "index": 0,
+                        "logprobs": None,
+                        "finish_reason": "length"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 5,
+                    "completion_tokens": 7,
+                    "total_tokens": 12
+                }
+    }
+    return response
