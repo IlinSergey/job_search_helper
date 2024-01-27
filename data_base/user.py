@@ -1,6 +1,6 @@
 from telegram import User as tg_user
 
-from data_base.db import db_session
+from data_base.db import Base
 from data_base.models import User
 
 
@@ -11,10 +11,9 @@ def create_user(effective_user: tg_user, chat_id: int) -> None:
         last_name=effective_user.last_name,
         username=effective_user.username,
         chat_id=chat_id,
-        vacancy='None',
     )
-    db_session.add(user)
-    db_session.commit()
+    Base.db_session.add(user)
+    Base.db_session.commit()
 
 
 def set_vacancy(effective_user: tg_user, vacany_name: str) -> None:
@@ -24,7 +23,7 @@ def set_vacancy(effective_user: tg_user, vacany_name: str) -> None:
     """
     user = User.query.filter(User.user_id == effective_user.id).first()
     user.vacancy = vacany_name
-    db_session.commit()
+    Base.db_session.commit()
 
 
 def is_user_in_db(effective_user: tg_user) -> bool:
