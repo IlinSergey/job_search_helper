@@ -63,4 +63,3 @@ def get_covering_letter(vacancy_description: str) -> str:
                     logger.warning(f"Неизвестная ошибка при обращении к YaGPT {response.status_code}")
                     return f"Произошла ошибка {response.status_code}"
     return "Произошла ошибка при обращении к YaGPT"
-
