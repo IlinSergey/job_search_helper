@@ -49,4 +49,4 @@ def get_covering_letter(vacancy_description: str) -> str:
         return letter
 
     logger.info(f"При запросе к YaGPT возникла ошибка {response.status_code}")
-    return f'Произошла ошибка {response.status_code}'
+    return f"Возникла ошибка {response.status_code}"
