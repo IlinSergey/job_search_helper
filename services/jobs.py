@@ -1,6 +1,6 @@
 from telegram.ext import CallbackContext
 
-from data_base.user import find_vacancy_name
+from data_base.search_params import get_search_params
 from data_base.vacancy import read_vacancy
 from services.hh import HHAgent
 from utils.keyboards import covering_letter_keyboard
@@ -10,9 +10,9 @@ hh = HHAgent()
 
 async def update_db(context: CallbackContext) -> None:
     user_id = context._user_id
-    vacancy_name = find_vacancy_name(user_id)  # type: ignore [arg-type]
-    if vacancy_name:
-        hh.find_vacation(vacancy_name, user_id)  # type: ignore [arg-type]
+    search_params = get_search_params(user_id)  # type: ignore [arg-type]
+    if search_params:
+        hh.find_vacation(search_params, user_id)  # type: ignore [arg-type]
 
 
 async def send_vacation(context: CallbackContext) -> None:

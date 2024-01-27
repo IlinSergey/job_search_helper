@@ -8,7 +8,7 @@ FLAKE8_FLAGS = --exclude=$(IGNORE_DIR)
 
 
 style:
-	flake8 $(FLAKE8_FLAGS) $(SRC_DIR)
+	flake8 --exclude=migrations,env,.pytest_cache,.mypy_cache,__pycache__,.vscode $(SRC_DIR)
 
 types:
 	mypy $(MYPY_FLAGS) $(SRC_DIR)
