@@ -1,4 +1,4 @@
-from data_base.db import db_session
+from data_base.db import Base
 from data_base.models import Vacancy
 from utils.custom_types import HHVacancy
 
@@ -14,15 +14,15 @@ def record_vacancy(vacancy: HHVacancy, user_id: int) -> None:
             salary=vacancy['salary'],
             user_id=user_id,
         )
-        db_session.add(data)
-        db_session.commit()
+        Base.db_session.add(data)
+        Base.db_session.commit()
 
 
 def read_vacancy(user_id: int) -> tuple[str, int] | None:
     vacancy = Vacancy.query.filter((Vacancy.user_id == user_id) & (Vacancy.is_showed == False)).first()  # noqa: E712
     if vacancy:
         vacancy.is_showed = True
-        db_session.commit()
+        Base.db_session.commit()
         return (f'{vacancy.description} * {vacancy.url}', vacancy.id_vacantion)
     else:
         return None
