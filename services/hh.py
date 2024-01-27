@@ -12,8 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class HHAgent:
-
-
+    
     def get_response(self, search_params: SearchParams) -> dict[str, Any] | bool:
         max_retries = 3
         delay_seconds = 0.5
@@ -46,7 +45,6 @@ class HHAgent:
                         logger.warning(f"Неизвестная ошибка при обращении к HH {response.status_code=}")
                         return False
         return False
-
 
     def find_vacation(self, search_params: SearchParams, user_id: int) -> None:
         response = self.get_response(search_params)
