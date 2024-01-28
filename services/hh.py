@@ -32,13 +32,14 @@ class HHAgent:
                 response = requests.get(url, params=params)
             except Exception as e:
                 logger.warning(f"Ошибка при запросе к HH {e}")
-                response = False
-            if response:
+                response = None
+            if response is not None:
                 match response.status_code:
                     case 200:
                         return response.json()
                     case 400:
                         logger.warning(f"Ошибка запроса к HH {response.status_code=}")
+                        return False
                     case 429:
                         time.sleep(delay_seconds)
                     case _:
