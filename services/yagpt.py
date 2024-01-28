@@ -49,8 +49,8 @@ def get_covering_letter(vacancy_description: str) -> str:
             response = requests.post(url, headers=headers, json=prompt)
         except Exception as e:
             logger.warning(f"Ошибка при запросе к YaGPT {e}")
-            response = False
-        if response:
+            response = None
+        if response is not None:
             match response.status_code:
                 case 200:
                     json_result = json.loads(response.text)
@@ -61,5 +61,6 @@ def get_covering_letter(vacancy_description: str) -> str:
                     time.sleep(delay_seconds)
                 case _:
                     logger.warning(f"Неизвестная ошибка при обращении к YaGPT {response.status_code}")
-                    return f"Произошла ошибка {response.status_code}"
+                    return f"Возникла ошибка {response.status_code}"
+        return "Возникла ошибка при обращении к YaGPT"
     return "Произошла ошибка при обращении к YaGPT"
