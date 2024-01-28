@@ -1,6 +1,7 @@
 env/
 .env
 .vscode/
-vacancies.db
 __pycache__/
 logs.log
+htmlcov/
+.coverage
