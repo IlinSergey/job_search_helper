@@ -24,8 +24,8 @@ def get_covering_letter(vacancy_description: str) -> str:
             )
         except Exception as e:
             logger.warning(f"Ошибка при запросе к OpenAI {e}")
-            response = False
-        if response:
+            response = None
+        if response is not None:
             match response.status_code:
                 case 200:
                     result = response.json()
@@ -40,4 +40,5 @@ def get_covering_letter(vacancy_description: str) -> str:
                 case _:
                     logger.warning(f"Неизвестная ошибка при обращении к OpenAI {response.status_code}")
                     return f"Возникла ошибка {response.status_code}"
+        return "Возникла ошибка при обращении к OpenAI"
     return "Возникла ошибка при обращении к OpenAI"
