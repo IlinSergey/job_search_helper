@@ -5,3 +5,4 @@ __pycache__/
 logs.log
 htmlcov/
 .coverage
+.test.env
