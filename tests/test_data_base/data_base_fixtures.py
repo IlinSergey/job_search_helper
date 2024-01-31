@@ -7,6 +7,7 @@ from data_base.db import Base
 from data_base.models import SearchParams, User, Vacancy  # noqa: F401
 from data_base.user import create_user
 from utils.config import MODE
+from utils.custom_types import HHVacancy
 
 
 @pytest.fixture(scope="package")
@@ -33,3 +34,16 @@ def create_data_base_and_tables():
 @pytest.fixture(scope="package", autouse=True)
 def create_user_in_db(effective_user, chat_id):
     create_user(effective_user, chat_id)
+
+
+@pytest.fixture
+def hh_vacancy(vacation_id):
+    vacancy = HHVacancy(
+        id_vacantion=vacation_id,
+        name="Some test vacancy",
+        url="https://hh.ru/vacancy/92292020",
+        descript="Some description for test vacancy",
+        date_published="2020-01-01",
+        salary="1000",
+        )
+    return vacancy
