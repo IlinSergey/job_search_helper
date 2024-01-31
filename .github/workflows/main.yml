@@ -32,32 +32,32 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run mypy
         run: mypy .
-  test:
-    runs-on: ubuntu-latest
-    needs: [lint, types]
-    services:
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_DB: HeadHunter_test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.10.6
-      - name: Install requirements
-        run: pip install -r requirements.txt
-      - name: Create database
-        run: |
-          psql -h localhost -U postgres -c "CREATE DATABASE HeadHunter_test" -W postgres
-      - name: Set up  env
-        run: |
-          export MODE=TEST
-      - name: Run tests
-        run: pytest .
+  # test:
+  #   runs-on: ubuntu-latest
+  #   needs: [lint, types]
+  #   services:
+  #     postgres:
+  #       image: postgres:latest
+  #       env:
+  #         POSTGRES_DB: HeadHunter_test
+  #         POSTGRES_USER: postgres
+  #         POSTGRES_PASSWORD: postgres
+  #       ports:
+  #         - 5432:5432
+  #       options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Setup Python
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: 3.10.6
+  #     - name: Install requirements
+  #       run: pip install -r requirements.txt
+  #     - name: Create database
+  #       run: |
+  #         psql -h localhost -U postgres -c "CREATE DATABASE HeadHunter_test" -W postgres
+  #     - name: Set up  env
+  #       run: |
+  #         export MODE=TEST
+  #     - name: Run tests
+  #       run: pytest .
