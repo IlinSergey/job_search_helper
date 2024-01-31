@@ -55,7 +55,7 @@ jobs:
         run: pip install -r requirements.txt
       - name: Create database
         run: |
-          psql -h localhost -U postgres -c "CREATE DATABASE HeadHunter_test"
+          psql -h localhost -U postgres -c "CREATE DATABASE HeadHunter_test" -W postgres
       - name: Set up  env
         run: |
           export MODE=TEST
