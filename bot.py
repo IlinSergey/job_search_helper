@@ -81,8 +81,8 @@ def main() -> None:
     )
     app.add_handler(anketa)
     app.add_handler(CommandHandler("start", start, is_user_filter))
-    app.add_handler(CommandHandler("run", run))
-    app.add_handler(CommandHandler("stop", stop))
+    app.add_handler(CommandHandler("run", run, is_user_filter))
+    app.add_handler(CommandHandler("stop", stop, is_user_filter))
 
     app.add_handler(CallbackQueryHandler(letter))
 
