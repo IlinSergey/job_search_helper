@@ -26,7 +26,7 @@ def create_search_params(user_id: int, search_params: SearchParamsType) -> None:
 
 def get_search_params(user_id: int) -> SearchParamsType | None:
     try:
-        search_params = Base.db_session.get(SearchParams, user_id)
+        search_params = Base.db_session.get_one(SearchParams, user_id)
         result = SearchParamsType(
             vacancy_name=search_params.vacancy_name,
             experience=search_params.experience.value,
