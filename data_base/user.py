@@ -3,7 +3,7 @@ from functools import cache
 from telegram import User as tg_user
 
 from data_base.db import Base
-from data_base.models import User
+from data_base.models import SearchParams, User
 
 
 def create_user(effective_user: tg_user, chat_id: int) -> None:
@@ -18,13 +18,13 @@ def create_user(effective_user: tg_user, chat_id: int) -> None:
     Base.db_session.commit()
 
 
-def set_vacancy(effective_user: tg_user, vacany_name: str) -> None:
+def set_vacancy(effective_user: tg_user, vacancy_name: str) -> None:
     """
     Устанавливает название вакансии для поиска
     vacancy_name: название по которому будет осуществляться поиск вакансий
     """
-    user = User.query.filter(User.user_id == effective_user.id).first()
-    user.vacancy = vacany_name
+    params = SearchParams.query.filter(SearchParams.user_id == effective_user.id).first()
+    params.vacancy_name = vacancy_name
     Base.db_session.commit()
 
 
@@ -38,5 +38,5 @@ def is_user_in_db(effective_user: tg_user) -> bool:
 
 
 def find_vacancy_name(user_id: int) -> str | None:
-    user = User.query.filter(User.user_id == user_id).first()
-    return user.vacancy
+    params = SearchParams.query.filter(SearchParams.user_id == user_id).first()
+    return params.vacancy_name
