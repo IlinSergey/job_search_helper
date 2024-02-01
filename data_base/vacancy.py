@@ -1,5 +1,3 @@
-from functools import cache
-
 from data_base.db import Base
 from data_base.models import Vacancy
 from utils.custom_types import HHVacancy
@@ -30,7 +28,6 @@ def read_vacancy(user_id: int) -> tuple[str, int] | None:
         return None
 
 
-@cache
 def is_vacancy_in_db(vacancy_id: int) -> bool:
     '''
     Проверяем наличие вакансии в БД

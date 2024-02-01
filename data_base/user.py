@@ -1,5 +1,3 @@
-from functools import cache
-
 from telegram import User as tg_user
 
 from data_base.db import Base
@@ -28,7 +26,6 @@ def set_vacancy(effective_user: tg_user, vacancy_name: str) -> None:
     Base.db_session.commit()
 
 
-@cache
 def is_user_in_db(effective_user: tg_user) -> bool:
     """
     Проверяет, есть ли текущий пользователь в БД
