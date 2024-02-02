@@ -10,6 +10,16 @@ def covering_letter_keyboard(vacancy_id: int) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(keyboard)
 
 
+def get_subscribe_keyboard() -> InlineKeyboardMarkup:
+    keyboard = [
+        [
+            InlineKeyboardButton("Сопроводительное письмо доступно по подписке! \nПодписаться",
+                                 callback_data="subscribe"),
+        ]
+    ]
+    return InlineKeyboardMarkup(keyboard)
+
+
 START_KEYBOARD = InlineKeyboardMarkup([
         [
             InlineKeyboardButton("Заполнить анкету", callback_data="анкета")

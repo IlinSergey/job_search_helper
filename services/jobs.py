@@ -3,7 +3,7 @@ from telegram.ext import CallbackContext
 from data_base.search_params import get_search_params
 from data_base.vacancy import read_vacancy
 from services.hh import HHAgent
-from utils.keyboards import covering_letter_keyboard
+from utils.keyboards import covering_letter_keyboard, get_subscribe_keyboard
 
 hh = HHAgent()
 
@@ -20,10 +20,10 @@ async def send_vacation(context: CallbackContext) -> None:
     vacancy_data = read_vacancy(user_id)  # type: ignore [arg-type]
     if vacancy_data:
         vacancy, vacancy_id = vacancy_data
-        if user_id == 1055229700:
+        if user_id in (1055229700,):
             keyboard = covering_letter_keyboard(vacancy_id)
         else:
-            keyboard = None
+            keyboard = get_subscribe_keyboard()
         await context.bot.send_message(chat_id=chat_id, text=vacancy, reply_markup=keyboard)
     else:
         pass
