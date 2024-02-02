@@ -34,19 +34,22 @@ class TestUpdateDB:
 
 class TestSendVacation:
     @pytest.mark.asyncio
-    async def test__send_vacation__succes_without_keyboard(self, context, chat_id, user_id, vacancy_from_db):
+    async def test__send_vacation__succes_without_subscribe(self, context, chat_id, user_id, vacancy_from_db):
         context._user_id = user_id
         context._chat_id = chat_id
         with (
             patch("services.jobs.read_vacancy") as mock_read_vacancy,
+            patch("services.jobs.get_subscribe_keyboard") as mock_get_subscribe_keyboard,
               ):
             mock_read_vacancy.return_value = vacancy_from_db
+            mocked_keyboard = Mock()
+            mock_get_subscribe_keyboard.return_value = mocked_keyboard
             await send_vacation(context)
             assert mock_read_vacancy.call_count == 1
             context.bot.send_message.assert_called_with(
                 chat_id=chat_id,
                 text=vacancy_from_db[0],
-                reply_markup=None,
+                reply_markup=mocked_keyboard,
             )
 
     @pytest.mark.asyncio
