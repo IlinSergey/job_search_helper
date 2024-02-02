@@ -1,6 +1,6 @@
 version: '3'
 services:
-  postgres:
+  postgres-db:
     image: postgres:15
     container_name: postgres-db
     environment:
@@ -11,7 +11,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - /root/postgres-data:/var/lib/postgresql/data
 
   telegram-bot:
     build:
@@ -19,7 +19,7 @@ services:
       dockerfile: Dockerfile
     container_name: telegram-bot
     depends_on:
-      - postgres
+      - postgres-db
     restart: always
     environment:
       TG_TOKEN: ${TG_TOKEN}
