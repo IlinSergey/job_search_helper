@@ -1,6 +1,7 @@
 import logging
 from warnings import filterwarnings
 
+import sentry_sdk
 from telegram import Update
 from telegram.ext import (ApplicationBuilder, CallbackQueryHandler,
                           CommandHandler, ContextTypes, ConversationHandler,
@@ -13,12 +14,13 @@ from services.jobs import send_vacation, update_db
 from services.yagpt import get_covering_letter
 from utils.anketa import (anketa_start, save_employment, save_experience,
                           save_schedule, save_vacancy)
-from utils.config import TG_TOKEN
+from utils.config import SENTRY_DNS, TG_TOKEN
 from utils.custom_filtesrs import FilterIsUser
 from utils.keyboards import START_KEYBOARD
 
 filterwarnings(action="ignore", message=r".*CallbackQueryHandler", category=PTBUserWarning)
 
+sentry_sdk.init(SENTRY_DNS, traces_sample_rate=1.0, profiles_sample_rate=1.0)
 
 hh = HHAgent()
 is_user_filter = FilterIsUser()
@@ -99,4 +101,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     create_tables()
-    main()
+    try:
+        main()
+    except Exception as e:
+        sentry_sdk.capture_exception(e)

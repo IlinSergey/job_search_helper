@@ -3,10 +3,13 @@ import logging
 import time
 
 import requests  # type: ignore
+import sentry_sdk
 
-from utils.config import CATALOG_ID, YA_API_KEY
+from utils.config import CATALOG_ID, SENTRY_DNS, YA_API_KEY
 
 logger = logging.getLogger(__name__)
+
+sentry_sdk.init(dsn=SENTRY_DNS, traces_sample_rate=1.0, profiles_sample_rate=1.0)
 
 
 def get_covering_letter(vacancy_description: str) -> str:
@@ -49,6 +52,7 @@ def get_covering_letter(vacancy_description: str) -> str:
             response = requests.post(url, headers=headers, json=prompt)
         except Exception as e:
             logger.warning(f"Ошибка при запросе к YaGPT {e}")
+            sentry_sdk.capture_exception(e)
             response = None
         if response is not None:
             match response.status_code:

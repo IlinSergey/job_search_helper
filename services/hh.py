@@ -4,11 +4,15 @@ import time
 from typing import Any
 
 import requests  # type: ignore
+import sentry_sdk
 
 from data_base.vacancy import record_vacancy
+from utils.config import SENTRY_DNS
 from utils.custom_types import HHVacancy, SearchParams
 
 logger = logging.getLogger(__name__)
+
+sentry_sdk.init(SENTRY_DNS, traces_sample_rate=1.0, profiles_sample_rate=1.0)
 
 
 class HHAgent:
@@ -31,6 +35,7 @@ class HHAgent:
                 response = requests.get(url, params=params)
             except Exception as e:
                 logger.warning(f"Ошибка при запросе к HH {e}")
+                sentry_sdk.capture_exception(e)
                 response = None
             if response is not None:
                 match response.status_code:
