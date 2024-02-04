@@ -2,13 +2,15 @@ import logging
 import time
 
 import requests  # type: ignore
+import sentry_sdk
 
-from utils.config import OPEN_AI_KEY
+from utils.config import OPEN_AI_KEY, SENTRY_DNS
 
 API_KEY = OPEN_AI_KEY
 MODEL = "text-davinci-003"
 
 logger = logging.getLogger(__name__)
+sentry_sdk.init(dsn=SENTRY_DNS, traces_sample_rate=1.0, profiles_sample_rate=1.0)
 
 
 def get_covering_letter(vacancy_description: str) -> str:
@@ -24,6 +26,8 @@ def get_covering_letter(vacancy_description: str) -> str:
             )
         except Exception as e:
             logger.warning(f"Ошибка при запросе к OpenAI {e}")
+            sentry_sdk.capture_exception(e)
+
             response = None
         if response is not None:
             match response.status_code:

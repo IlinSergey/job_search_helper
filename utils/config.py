@@ -14,8 +14,6 @@ DB_NAME = os.getenv("DB_NAME")
 
 # LOCAL
 DB = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-# DOCKER
-# DB = f"postgresql://{DB_USER}:{DB_PASSWORD}@postgres:{DB_PORT}/{DB_NAME}"
 
 # OpenAI
 OPEN_AI_KEY = os.getenv("OPEN_AI_KEY")
@@ -23,5 +21,7 @@ OPEN_AI_KEY = os.getenv("OPEN_AI_KEY")
 # YaGPT
 CATALOG_ID = os.getenv("CATALOG_ID")
 YA_API_KEY = os.getenv("YA_API_KEY")
+
+SENTRY_DNS = os.getenv("SENTRY_DNS")
 
 MODE = os.getenv("MODE")
